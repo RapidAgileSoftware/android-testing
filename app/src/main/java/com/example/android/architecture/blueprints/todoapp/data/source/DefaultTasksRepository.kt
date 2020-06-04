@@ -57,7 +57,7 @@ class DefaultTasksRepository(
             }
         }
     }
-    
+
     suspend fun getTasks(forceUpdate: Boolean = false): Result<List<Task>> {
         if (forceUpdate) {
             try {

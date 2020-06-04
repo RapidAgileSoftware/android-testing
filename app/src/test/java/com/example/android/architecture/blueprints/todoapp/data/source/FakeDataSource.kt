@@ -3,13 +3,29 @@ package com.example.android.architecture.blueprints.todoapp.data.source
 import androidx.lifecycle.LiveData
 import com.example.android.architecture.blueprints.todoapp.data.Result
 import com.example.android.architecture.blueprints.todoapp.data.Task
+import java.lang.Exception
 
 class FakeDataSource(var tasks: MutableList<Task>?= mutableListOf()) : TasksDataSource{
-    override fun observeTasks(): LiveData<Result<List<Task>>> {
-        TODO("Not yet implemented")
+
+    override suspend fun saveTask(task: Task) {
+        tasks?.add(task)
+    }
+    override suspend fun deleteAllTasks() {
+       tasks?.clear()
     }
 
     override suspend fun getTasks(): Result<List<Task>> {
+        // if task list not null return Success Result set
+       tasks?.let {
+           return Result.Success(ArrayList(it))
+       }
+        // otherwise return Error Result
+        return Result.Error(
+                Exception("Tasks not found")
+        )
+    }
+
+    override fun observeTasks(): LiveData<Result<List<Task>>> {
         TODO("Not yet implemented")
     }
 
@@ -29,9 +45,7 @@ class FakeDataSource(var tasks: MutableList<Task>?= mutableListOf()) : TasksData
         TODO("Not yet implemented")
     }
 
-    override suspend fun saveTask(task: Task) {
-        TODO("Not yet implemented")
-    }
+
 
     override suspend fun completeTask(task: Task) {
         TODO("Not yet implemented")
@@ -50,10 +64,6 @@ class FakeDataSource(var tasks: MutableList<Task>?= mutableListOf()) : TasksData
     }
 
     override suspend fun clearCompletedTasks() {
-        TODO("Not yet implemented")
-    }
-
-    override suspend fun deleteAllTasks() {
         TODO("Not yet implemented")
     }
 

@@ -22,6 +22,12 @@ object ServiceLocator {
     var tasksRepository:ITasksRepository? = null
         @VisibleForTesting set
 
+    fun provideTasksRepository(context: Context): ITasksRepository {
+        synchronized(this) {
+            return tasksRepository ?: createTasksRepository(context)
+        }
+    }
+
     // we need to context to create a DB
     fun provideTaskRepository(context:Context):ITasksRepository{
         // synchronized because we have potentially multiple threads working with it

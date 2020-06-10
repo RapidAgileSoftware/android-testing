@@ -2,6 +2,7 @@ package com.example.android.architecture.blueprints.todoapp.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.FakeTestRepository
@@ -30,19 +31,8 @@ class TasksViewModelTest {
 
     private lateinit var tasksRepository: FakeTestRepository
 
-    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
-
-    @Before
-    fun setTestDispatcher(){
-        // swaps out standard DispatcherMain with TestCoroutineDispatcher
-        Dispatchers.setMain(testDispatcher)
-    }
-
-    @After
-    fun tearDownTestDispatcher(){
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
-    }
+    @get:Rule
+    val mainCoroutineRule = MainCoroutineRule()
 
     @Before
     fun setupViewModel(){
@@ -100,6 +90,5 @@ class TasksViewModelTest {
         // and the snackbar is updated
         val snackbarText: Event<Int> = taskViewModel.snackbarText.getOrAwaitValue()
         assertThat(snackbarText.getContentIfNotHandled(), `is`(R.string.task_marked_complete))
-
     }
 }

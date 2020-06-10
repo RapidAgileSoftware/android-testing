@@ -25,6 +25,12 @@ android {
         enabled = true
         enabledForTests = true
     }
+
+    // always show the result of every unit tests when running via command line, even when it passes
+    testOptions.unitTests {
+        includeAndroidResources = true
+        returnDefaultValues = true
+    }
 }
 
 dependencies {
@@ -70,6 +76,8 @@ dependencies {
     androidTestImplementation "androidx.arch.core:core-testing:$archTestingVersion"
 
     androidTestImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion"
+
+    implementation "androidx.test.espresso:espresso-idling-resource:$espressoVersion"
 
     // Testing code should not be included in the main code.
     // Once https://issuetracker.google.com/128612536 is fixed this can be fixed.

@@ -1,10 +1,17 @@
 package com.example.android.architecture.blueprints.todoapp.tasks
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.example.android.architecture.blueprints.todoapp.Event
+import com.example.android.architecture.blueprints.todoapp.R
 import com.example.android.architecture.blueprints.todoapp.data.Task
 import com.example.android.architecture.blueprints.todoapp.data.source.FakeTestRepository
 import com.example.android.architecture.blueprints.todoapp.getOrAwaitValue
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.test.TestCoroutineDispatcher
+import kotlinx.coroutines.test.resetMain
+import kotlinx.coroutines.test.setMain
 import org.hamcrest.CoreMatchers.*
+import org.junit.After
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -22,6 +29,20 @@ class TasksViewModelTest {
     private lateinit var taskViewModel:TasksViewModel
 
     private lateinit var tasksRepository: FakeTestRepository
+
+    val testDispatcher: TestCoroutineDispatcher = TestCoroutineDispatcher()
+
+    @Before
+    fun setTestDispatcher(){
+        // swaps out standard DispatcherMain with TestCoroutineDispatcher
+        Dispatchers.setMain(testDispatcher)
+    }
+
+    @After
+    fun tearDownTestDispatcher(){
+        Dispatchers.resetMain()
+        testDispatcher.cleanupTestCoroutines()
+    }
 
     @Before
     fun setupViewModel(){
@@ -62,6 +83,23 @@ class TasksViewModelTest {
         // Then "Add task" action is visible
         assertThat(taskViewModel.tasksAddViewVisible.getOrAwaitValue(), `is` (true))
        // or assertTrue(taskViewModel.tasksAddViewVisible.getOrAwaitValue())
+
+    }
+
+    @Test
+    fun completeTask_dataAndSnackbarUpdated(){
+        // Given - repository with one active task
+        val task = Task("Title", "description")
+        tasksRepository.addTask(task)
+
+        // When task completed
+        taskViewModel.completeTask(task, completed = true)
+
+        // Then - verify that the task is completed
+        assertThat(tasksRepository.tasksServiceData[task.id]?.isCompleted, `is`(true))
+        // and the snackbar is updated
+        val snackbarText: Event<Int> = taskViewModel.snackbarText.getOrAwaitValue()
+        assertThat(snackbarText.getContentIfNotHandled(), `is`(R.string.task_marked_complete))
 
     }
 }

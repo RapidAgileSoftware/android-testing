@@ -42,7 +42,7 @@ class TasksViewModelTest {
         val task2 = Task("Title 2", "description 2", true)
         val task3 = Task("Title 3", "description 3")
         val task4 = Task("Title 4", "description 4")
-        tasksRepository.addTask(task1,task2,task3,task4)
+        tasksRepository.addTasks(task1,task2,task3,task4)
 
         taskViewModel = TasksViewModel(tasksRepository)
 
@@ -80,7 +80,7 @@ class TasksViewModelTest {
     fun completeTask_dataAndSnackbarUpdated(){
         // Given - repository with one active task
         val task = Task("Title", "description")
-        tasksRepository.addTask(task)
+        tasksRepository.addTasks(task)
 
         // When task completed
         taskViewModel.completeTask(task, completed = true)

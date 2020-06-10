@@ -1,5 +1,6 @@
 package com.example.android.architecture.blueprints.todoapp.data.source
 
+import com.example.android.architecture.blueprints.todoapp.MainCoroutineRule
 import com.example.android.architecture.blueprints.todoapp.data.Result.Error
 import com.example.android.architecture.blueprints.todoapp.data.Result.Success
 import com.example.android.architecture.blueprints.todoapp.data.Task
@@ -9,6 +10,7 @@ import kotlinx.coroutines.test.runBlockingTest
 import org.hamcrest.core.IsEqual
 import org.junit.Assert.*
 import org.junit.Before
+import org.junit.Rule
 import org.junit.Test
 
 class DefaultTasksRepositoryTest {
@@ -25,6 +27,9 @@ class DefaultTasksRepositoryTest {
     // class to test
     private lateinit var tasksRepository: DefaultTasksRepository
 
+    @get:Rule
+    var mainCoroutineRule = MainCoroutineRule()
+
     @Before
     fun createRepository(){
         taskRemoteDataSource = FakeDataSource(remoteTasks.toMutableList())
@@ -33,13 +38,14 @@ class DefaultTasksRepositoryTest {
         tasksRepository= DefaultTasksRepository(
                 taskRemoteDataSource,
                 taskLocalDataSource,
-                Dispatchers.Unconfined
+                // since we are using MainCoroutineRule Dispatcher.Main is swaped with TestCoroutineDispatcher
+                Dispatchers.Main
         )
     }
-    // we use CoroutinesApi to run suspended functions with runBlockingTest
+    // we use CoroutinesApi to run suspended functions with runBlockingTest, we add Annotation to avoid linting errors
     @ExperimentalCoroutinesApi
     @Test
-    fun getTasks_requestsAllTasksFromRemoteDataSource()= runBlockingTest{
+    fun getTasks_requestsAllTasksFromRemoteDataSource()= mainCoroutineRule.runBlockingTest{
         // When tasks are requested from the tasks repository
         val tasks = tasksRepository.getTasks(true) as Success
 

@@ -1,7 +1,6 @@
-TO-DO Notes - Code for 5.1-5.3 Testing Codelab
+Testing Codelab
 ============================================================================
 
-Code for the Advanced Android Kotlin Testing Codelab 5.1-5.3
 
 Introduction
 ------------
@@ -11,12 +10,6 @@ You can then mark them as completed or not, filter them and delete them.
 
 ![App main screen, screenshot](screenshot.png)
 
-This codelab has four branches, representing different code states:
-
-* [starter_code](https://github.com/googlecodelabs/android-testing/tree/starter_code)
-* [end_codelab_1](https://github.com/googlecodelabs/android-testing/tree/end_codelab_1)
-* [end_codelab_2](https://github.com/googlecodelabs/android-testing/tree/end_codelab_2)
-* [end_codelab_3](https://github.com/googlecodelabs/android-testing/tree/end_codelab_3)
 
 The codelabs in this series are:
 * [Testing Basics](https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-testing-basics)
@@ -40,8 +33,8 @@ You should be familiar with:
 Getting Started
 ---------------
 
-1. Download and run the app.
-2. Check out one of the codelabs mentioned above.
+1. Download/ clone the app.
+2. Deploy and run app with latest Android Studio
 
 License
 -------

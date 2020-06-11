@@ -10,8 +10,16 @@ You can then mark them as completed or not, filter them and delete them.
 
 ![App main screen, screenshot](screenshot.png)
 
+The demonstrated techniques include:
+- unit, integration and end-to-end testing
+- usage of the androidX testing libraries
+- test doubles, fakes and dependency injections
+- mockito for creating mocks
+- espresso for UI testing and idling resources
+- testing LiveData, ViewModels, Fragments, navigation components, coroutines, Room and data binding
 
-The codelabs in this series are:
+
+The used codelabs are:
 * [Testing Basics](https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-testing-basics)
 * [Introduction to Test Doubles and Dependency Injection](https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-testing-test-doubles)
 * [Survey of Testing Topics](https://codelabs.developers.google.com/codelabs/advanced-android-kotlin-training-testing-survey)
